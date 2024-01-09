@@ -6,11 +6,11 @@ Yes, we are here!
 
 <ol>
   <li>
-    <hi>src\main\java\frc\robot\subsystems\DriveTrain.java</hi>
+    <h3>src\main\java\frc\robot\subsystems\DriveTrain.java</h3>
     <p>edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup is a depreciated library. See if tankdrive works better in here instead.</p>
   </li>
   <li>
-    <h1>CTRE related code is broken!</h1>
+    <h3>CTRE related code is broken!</h3>
     <p>Can't do anything about that right now; they need to publish their stuff first...</p>
   </li>
 </ol>
