@@ -8,35 +8,26 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 
 
-/**
- * PROBLEM 1: PLEASE REMOVE ALL INSTANCES OF THIS []
- * 
- */
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.Ports.*;
 
 public class DriveTrain extends SubsystemBase {
 
-    private CANSparkMax left1, left2, right1, right2;
-    private MotorControllerGroup left, right;
+    private CANSparkMax left1 = new CANSparkMax(MOTOR_LEFT1, MotorType.kBrushed) , left2 = new CANSparkMax(MOTOR_LEFT2, MotorType.kBrushed), 
+                        right1 = new CANSparkMax(MOTOR_RIGHT1, MotorType.kBrushed), right2 = new CANSparkMax(MOTOR_RIGHT2, MotorType.kBrushed);
     private DifferentialDrive drive;
 
     public DriveTrain() {
-        left1 = new CANSparkMax(MOTOR_LEFT1, MotorType.kBrushed);
-        left2 = new CANSparkMax(MOTOR_LEFT2, MotorType.kBrushed);
-        right1 = new CANSparkMax(MOTOR_RIGHT1, MotorType.kBrushed);
-        right2 = new CANSparkMax(MOTOR_RIGHT2, MotorType.kBrushed);
 
-        left = new MotorControllerGroup(left1, left2);
-        right = new MotorControllerGroup(right1, right2);
+        left2.follow(left1);
+        right2.follow(right1);
 
-        drive = new DifferentialDrive(left, right);
+        drive = new DifferentialDrive(left1, right2);
+        drive.setDeadband(RobotDriveBase.kDefaultDeadband);
     }
 
+    // OLD, VERIFY THIS.
     // The Problem: Left1 needs to be inverted but the motor locks when inverted.
     //              Inverting it on the software side fixes it, but requires a
     //              significant amount of customized behaviour.
@@ -48,27 +39,18 @@ public class DriveTrain extends SubsystemBase {
 
         xSpeed *= -1;
         
-        var m_deadband = RobotDriveBase.kDefaultDeadband;
         var m_maxOutput = RobotDriveBase.kDefaultMaxOutput;
 
-        xSpeed = MathUtil.applyDeadband(xSpeed, m_deadband);
-        zRotation = MathUtil.applyDeadband(zRotation, m_deadband);
+        xSpeed = MathUtil.applyDeadband(xSpeed, RobotDriveBase.kDefaultDeadband);
+        zRotation = MathUtil.applyDeadband(zRotation, RobotDriveBase.kDefaultDeadband);
     
-        var speeds = drive.arcadeDriveIK(xSpeed, zRotation, false);
+        var speeds = DifferentialDrive.arcadeDriveIK(xSpeed, zRotation, false);
     
-        setMotors(speeds.left * m_maxOutput, speeds.right * m_maxOutput);
-    }
-
-    public void setMotors(double leftSpeed, double rightSpeed) {
-        left.set(leftSpeed);
-
-        right1.set(-rightSpeed);
-        right2.set(rightSpeed);
+        drive.tankDrive(speeds.left * m_maxOutput, speeds.right * m_maxOutput);
     }
 
     public void stop() {
-        left.set(0);
-        right.set(0);
+        System.out.print("Executing Stop func in Drive Train!");
     }
 
 }
