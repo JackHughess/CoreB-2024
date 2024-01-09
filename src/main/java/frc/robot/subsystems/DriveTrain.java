@@ -1,12 +1,20 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
+
+
+/**
+ * PROBLEM 1: PLEASE REMOVE ALL INSTANCES OF THIS []
+ * 
+ */
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.Ports.*;
