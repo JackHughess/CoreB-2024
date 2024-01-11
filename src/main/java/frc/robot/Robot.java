@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.commands.MoveTowardTag;
-import frc.robot.commands.SearchForTag;
-import frc.robot.commands.ShootBalls;
+// import frc.robot.commands.MoveTowardTag;
+// import frc.robot.commands.SearchForTag;
+// import frc.robot.commands.ShootBalls;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 import static frc.robot.Constants.Ports.*;
 
@@ -30,12 +30,12 @@ public class Robot extends TimedRobot {
   private XboxController xbox = new XboxController(CONTROLLER);
 
   private DriveTrain driveTrain;
-  private Intake intake;
+  private Shooter shooter;
 
   @Override
   public void robotInit() {
     driveTrain = new DriveTrain();
-    intake = new Intake();
+    shooter = new Shooter();
   }
 
   @Override
@@ -53,12 +53,14 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     var search = Commands.sequence(
-      new SearchForTag(driveTrain),
-      new MoveTowardTag(driveTrain),
-      new ShootBalls(intake)
+      // new SearchForTag(driveTrain),
+      // new MoveTowardTag(driveTrain),
+      // new ShootBalls(shooter)
     );
 
     CommandScheduler.getInstance().schedule(search);
+
+    
   }
 
   @Override
@@ -87,6 +89,15 @@ public class Robot extends TimedRobot {
       -y * xScalar,
       x * zScalar
     );
+
+    if(xbox.getLeftBumper()) {
+      shooter.setTop(1);
+      shooter.setBottom(1);
+    }
+    
+    if(!xbox.getLeftBumper()) {
+      shooter.stop();
+    }
     // Left joystick controls the arm.
     // Left bumper picks up with the intake and
     //  left trigger shoots with the intake.

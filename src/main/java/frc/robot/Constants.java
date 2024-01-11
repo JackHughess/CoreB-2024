@@ -9,8 +9,8 @@ public interface Constants {
         int MOTOR_LEFT1 = 3, MOTOR_LEFT2 = 4;
         int MOTOR_RIGHT1 = 7, MOTOR_RIGHT2 = 2;
 
-        int ARM = 5;
-        int INTAKE = 6;
+        int TopShooter = 5; // This will change
+        int BottomShooter = 6; // This will change
     }
 
     interface Limelight {
