@@ -10,6 +10,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Limelight;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 /**
@@ -27,7 +32,7 @@ public class Robot extends TimedRobot {
   private Drivetrain diffDrive;
 
   private double startTime;
-
+  private Limelight limelight;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -39,6 +44,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     controller = new XboxController(0);
     diffDrive = new Drivetrain();
+    limelight = new Limelight();
   }
 
   /**
@@ -67,7 +73,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -81,11 +87,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    if((Timer.getFPGATimestamp() - startTime) <= 2) {
-      diffDrive.driveTank(.2, .2);
-    } else {
-      diffDrive.driveTank(0, 0);
-    }
+    double time = Timer.getFPGATimestamp();
+    Limelight.limelightPeriodic();
+    Limelight.turnTowardsThing(diffDrive);
   }
 
   @Override

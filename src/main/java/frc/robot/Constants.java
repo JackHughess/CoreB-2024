@@ -10,8 +10,8 @@ public interface Constants {
 
         int CONTROLLER = 0;
 
-        int MOTOR_LEFT1 = 2, MOTOR_LEFT2 = 5;
-        int MOTOR_RIGHT1 = 3, MOTOR_RIGHT2 = 4;
+        int MOTOR_LEFT1 = 3, MOTOR_LEFT2 = 4;
+        int MOTOR_RIGHT1 = 7, MOTOR_RIGHT2 = 2;
 
         int TopShooter = 5; // This will change
         int BottomShooter = 6; // This will change
