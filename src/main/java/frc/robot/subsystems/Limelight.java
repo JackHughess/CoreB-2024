@@ -30,7 +30,7 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putNumber("LimelightArea", area);
     }
 
-    public static void turnTowardsThing(Drivetrain drive) { 
+    public double[] turnTowardsThing() { 
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
         NetworkTableEntry tx = table.getEntry("tx");
         NetworkTableEntry ty = table.getEntry("ty");
@@ -38,14 +38,21 @@ public class Limelight extends SubsystemBase {
         double x = tx.getDouble(0.0);
         double y = ty.getDouble(0.0);
         double area = ta.getDouble(0.0);
+        System.out.println("tx: " + x);
 
+        double leftSpeed = 0;
+        double rightSpeed = 0;
+        
         if(x>0) {
-            drive.driveTank(.2, -.2);
+            leftSpeed = .2;
+            rightSpeed = -.2;
         }
         if(x<0) {
-            drive.driveTank(-.2, .2);
+            leftSpeed = -.2;
+            rightSpeed = .2;
         }
 
-
+        double[] array = {leftSpeed, rightSpeed};
+        return array;
     }
 }

@@ -89,7 +89,11 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     double time = Timer.getFPGATimestamp();
     Limelight.limelightPeriodic();
-    Limelight.turnTowardsThing(diffDrive);
+    double[] arr = limelight.turnTowardsThing();
+    double leftSpeed = arr[0];
+    double rightSpeed = arr[1];
+    diffDrive.driveTank(leftSpeed, rightSpeed);
+
   }
 
   @Override
@@ -99,20 +103,20 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+      //m_autonomousCommand.cancel();
     }
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    double leftMotorSpeed = controller.getLeftY();
-    double rightMotorSpeed = controller.getLeftY();
-    if(controller.getRightX() == -1) {
+    double leftMotorSpeed = controller.getRightY();
+    double rightMotorSpeed = controller.getRightY();
+    if(controller.getLeftX() == -1) {
       leftMotorSpeed = .5;
       rightMotorSpeed = -.5;
     }
-    if(controller.getRightX() == 1) {
+    if(controller.getLeftX() == 1) {
       leftMotorSpeed = -.5;
       rightMotorSpeed = .5;
     }
